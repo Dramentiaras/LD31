@@ -16,10 +16,10 @@ public class Launch {
 		try {
 			
 			PixelFormat format = new PixelFormat();
-			ContextAttribs attribs = new ContextAttribs(3, 3)
+			ContextAttribs attribs = new ContextAttribs(3, 2)
 					.withForwardCompatible(true).withProfileCore(true);
 			
-			Display.setDisplayMode(new DisplayMode(800, 600));
+			Display.setDisplayMode(new DisplayMode(1296, 720));
 			Display.create(format, attribs);
 			Keyboard.create();
 			Mouse.create();

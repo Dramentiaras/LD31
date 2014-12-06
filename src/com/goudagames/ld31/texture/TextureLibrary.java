@@ -15,6 +15,11 @@ public class TextureLibrary {
 
 	private static HashMap<String, Texture> textures = new HashMap<String, Texture>();
 	
+	public static Texture get(String name) {
+		
+		return textures.get(name);
+	}
+	
 	public static void load(String path, String name, int magFilter, int minFilter) {
 		
 		ByteBuffer buf = null;
