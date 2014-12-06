@@ -20,6 +20,11 @@ public class TextureLibrary {
 		return textures.get(name);
 	}
 	
+	public static void load(String path, String name) {
+		
+		load(path, name, GL11.GL_NEAREST, GL11.GL_NEAREST);
+	}
+	
 	public static void load(String path, String name, int magFilter, int minFilter) {
 		
 		ByteBuffer buf = null;

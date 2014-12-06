@@ -6,28 +6,44 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import com.goudagames.ld31.entity.Entity;
+import com.goudagames.ld31.entity.EntityBasicSnowman;
+import com.goudagames.ld31.entity.EntityPlayer;
+import com.goudagames.ld31.input.Input;
 import com.goudagames.ld31.level.Level;
 import com.goudagames.ld31.texture.TextureLibrary;
 import com.goudagames.ld31.util.Time;
 
 public class Game {
 
+	public static Game instance;
+	
 	private boolean running = false;
 	public Level level;
+	
 	private ArrayList<Entity> entities;
 	private ArrayList<Entity> additions;
 	private ArrayList<Entity> removals;
 	
+	public EntityPlayer player;
+	
 	public Game() {
+		
+		instance = this;
 		
 		Time.init();
 		
-		TextureLibrary.load("textures/tileset.png", "tileset", GL11.GL_NEAREST, GL11.GL_NEAREST);
+		TextureLibrary.load("textures/tileset.png", "tileset");
+		TextureLibrary.load("textures/entities.png", "entities");
+		
 		level = new Level();
 		
 		entities = new ArrayList<Entity>();
 		additions = new ArrayList<Entity>();
 		removals = new ArrayList<Entity>();
+		
+		player = new EntityPlayer(Display.getWidth() / 2f, Display.getHeight() / 2f);
+		addEntity(player);
+		addEntity(new EntityBasicSnowman(16f, Display.getHeight() / 2f));
 		
 		start();
 	}
@@ -44,6 +60,8 @@ public class Game {
 			
 			update(Time.getDelta());
 			render();
+			
+			Input.update();
 			
 			Display.update();
 			Time.update();
@@ -62,6 +80,16 @@ public class Game {
 		running = false;
 	}
 	
+	public void addEntity(Entity e) {
+		
+		additions.add(e);
+	}
+	
+	public void removeEntity(Entity e) {
+		
+		removals.add(e);
+	}
+	 
 	public void update(float delta) {
 		
 		for (int i = 0; i < entities.size(); i++) {
@@ -80,6 +108,9 @@ public class Game {
 			
 			entities.remove(e);
 		}
+		
+		additions.clear();
+		removals.clear();
 	}
 	
 	public void render() {
