@@ -20,6 +20,7 @@ public class Launch {
 					.withForwardCompatible(true).withProfileCore(true);
 			
 			Display.setDisplayMode(new DisplayMode(1296, 720));
+			Display.setTitle("Carrot Chaos");
 			Display.create(format, attribs);
 			Keyboard.create();
 			Mouse.create();
