@@ -15,11 +15,13 @@ public class Tile {
 	
 	private boolean render = true;
 	private boolean variants = false;
+	private boolean foreground = false;
+	private boolean obstacle = false;
 	
 	private int maxVariants = 0;
 	
 	public static final Tile air = new Tile(0, 0).setShouldRender(false);
-	public static final Tile snow = new Tile(1, 0);
+	public static final Tile snow = new TileSnow(1, 18);
 	public static final Tile pathHorizontal = new Tile(2, 1);
 	public static final Tile pathVertical = new Tile(3, 2);
 	public static final Tile pathCornerLeftTop = new Tile(4, 3);
@@ -34,6 +36,7 @@ public class Tile {
 	public static final Tile pathEndRight = new Tile(13, 12);
 	public static final Tile pathEndDown = new Tile(14, 13);
 	public static final Tile pathEndUp = new Tile(15, 14);
+	public static final Tile tree = new TileTree(16, 34);
 	
 	public Tile(int tileID, int index) {
 		
@@ -46,6 +49,28 @@ public class Tile {
 		}
 		
 		tiles[tileID] = this;
+	}
+	
+	public boolean isObstacle() {
+		
+		return obstacle;
+	}
+	
+	public Tile setObstacle(boolean obstacle) {
+		
+		this.obstacle = obstacle;
+		return this;
+	}
+	
+	public boolean isForeground() {
+		
+		return foreground;
+	}
+	
+	public Tile setForeground(boolean foreground) {
+		
+		this.foreground = foreground;
+		return this;
 	}
 	
 	public int getVariants() {
@@ -81,7 +106,16 @@ public class Tile {
 		return this;
 	}
 	
-	public void renderAt(int x, int y) {
+	public int getVariant(Random rng) {
+		
+		return rng.nextInt(maxVariants + 1);
+	}
+	
+	public void renderForegroundAt(int x, int y, Level level) {
+		
+	}
+	
+	public void renderAt(int x, int y, Level level) {
 		
 		RenderEngine.instance.setRGBA(1f, 1f, 1f, 1f);
 		
@@ -89,8 +123,7 @@ public class Tile {
 		
 		if (variants) {
 			
-			Random rng = new Random(x * y + x - y);
-			i += rng.nextInt(maxVariants + 1);
+			i += level.getVariant(x, y);
 		}
 		
 		float u = (i % 16) * 24f;

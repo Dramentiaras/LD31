@@ -1,6 +1,7 @@
 package com.goudagames.ld31.entity;
 
 import com.goudagames.ld31.base.Game;
+import com.goudagames.ld31.level.Level;
 import com.goudagames.ld31.render.RenderEngine;
 
 public class EntitySnowball extends Entity {
@@ -33,10 +34,16 @@ public class EntitySnowball extends Entity {
 	}
 	
 	@Override
+	public void collideWithTile(int x, int y, Level level) {
+		
+		Game.instance.removeEntity(this);
+	}
+	
+	@Override
 	public void render() {
 		
 		RenderEngine.instance.setRGBA(1f, 1f, 1f, 1f);
 		
-		RenderEngine.instance.renderTexturedQuad(x, y, width, height, 0f, 96f, 0f, 4f, 4f, true, "entities");
+		RenderEngine.instance.renderTexturedQuad(x, y, width, height, 0f, 112f, 0f, 4f, 4f, true, "entities");
 	}
 }

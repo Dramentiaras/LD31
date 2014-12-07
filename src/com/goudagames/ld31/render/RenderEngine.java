@@ -63,6 +63,7 @@ public class RenderEngine {
 		GL20.glVertexAttribPointer(2, Vertex.textureElementCount, GL11.GL_FLOAT, false, Vertex.stride, Vertex.textureByteOffset);
 	
 		model.translate(new Vector2f(x, y));
+		model.rotate(rotation, new Vector3f(0f, 0f, 1f));
 		model.scale(new Vector3f(width, height, 1f));
 		
 		FloatBuffer projBuf = BufferUtils.createFloatBuffer(16);
@@ -122,6 +123,7 @@ public class RenderEngine {
 		GL20.glVertexAttribPointer(2, Vertex.textureElementCount, GL11.GL_FLOAT, false, Vertex.stride, Vertex.textureByteOffset);
 	
 		model.translate(new Vector2f(x, y));
+		model.rotate(rotation, new Vector3f(0f, 0f, 1f));
 		model.scale(new Vector3f(width, height, 1f));
 		
 		FloatBuffer projBuf = BufferUtils.createFloatBuffer(16);
@@ -328,6 +330,6 @@ public class RenderEngine {
 		GL20.glEnableVertexAttribArray(1);
 		GL20.glEnableVertexAttribArray(2);
 		
-		GL11.glClearColor(1f, 1f, 1f, 1f);
+		GL11.glClearColor(0f, 0f, 0f, 1f);
 	}
 }
