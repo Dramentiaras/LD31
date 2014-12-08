@@ -274,10 +274,22 @@ public class RenderEngine {
 		GL20.glShaderSource(vs, loadShaderSource("com/goudagames/ld31/shader/vert.glsl"));
 		GL20.glCompileShader(vs);
 		
+		int l = GL20.glGetShaderi(vs, GL20.GL_COMPILE_STATUS);
+		if (l == GL11.GL_FALSE) {
+			System.err.println("Error compiling vertex shader!");
+			System.err.println(GL20.glGetShaderInfoLog(vs, GL20.glGetShaderi(vs, GL20.GL_INFO_LOG_LENGTH)));
+		}
+		
 		int fs = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
 		
 		GL20.glShaderSource(fs, loadShaderSource("com/goudagames/ld31/shader/frag.glsl"));
 		GL20.glCompileShader(fs);
+		
+		l = GL20.glGetShaderi(fs, GL20.GL_COMPILE_STATUS);
+		if (l == GL11.GL_FALSE) {
+			System.err.println("Error compiling fragment shader!");
+			System.err.println(GL20.glGetShaderInfoLog(fs, GL20.glGetShaderi(fs, GL20.GL_INFO_LOG_LENGTH)));
+		}
 		
 		program = GL20.glCreateProgram();
 		
@@ -290,9 +302,10 @@ public class RenderEngine {
 		GL20.glLinkProgram(program);
 		GL20.glValidateProgram(program);
 		
-		if (GL20.glGetProgrami(program, GL20.GL_LINK_STATUS) == GL11.GL_FALSE) {
-			
-			System.out.println("Error in program linking.");
+		int error = GL20.glGetProgrami(program, GL20.GL_LINK_STATUS);
+		if (error == GL11.GL_FALSE) {
+			System.err.println("Error linking program!");
+			System.err.println(GL20.glGetProgramInfoLog(program, GL20.GL_INFO_LOG_LENGTH));
 		}
 		
 		int tvs = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
@@ -300,10 +313,22 @@ public class RenderEngine {
 		GL20.glShaderSource(tvs, loadShaderSource("com/goudagames/ld31/shader/tex_vert.glsl"));
 		GL20.glCompileShader(tvs);
 		
+		l = GL20.glGetShaderi(tvs, GL20.GL_COMPILE_STATUS);
+		if (l == GL11.GL_FALSE) {
+			System.err.println("Error compiling texture vertex shader!");
+			System.err.println(GL20.glGetShaderInfoLog(tvs, GL20.glGetShaderi(tvs, GL20.GL_INFO_LOG_LENGTH)));
+		}
+		
 		int tfs = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
 		
 		GL20.glShaderSource(tfs, loadShaderSource("com/goudagames/ld31/shader/tex_frag.glsl"));
 		GL20.glCompileShader(tfs);
+		
+		l = GL20.glGetShaderi(tfs, GL20.GL_COMPILE_STATUS);
+		if (l == GL11.GL_FALSE) {
+			System.err.println("Error compiling texture fragment shader!");
+			System.err.println(GL20.glGetShaderInfoLog(tfs, GL20.glGetShaderi(tfs, GL20.GL_INFO_LOG_LENGTH)));
+		}
 		
 		texProgram = GL20.glCreateProgram();
 		
@@ -317,11 +342,10 @@ public class RenderEngine {
 		GL20.glLinkProgram(texProgram);
 		GL20.glValidateProgram(texProgram);
 		
-		int error = GL20.glGetProgrami(texProgram, GL20.GL_LINK_STATUS);
+		error = GL20.glGetProgrami(texProgram, GL20.GL_LINK_STATUS);
 		if (error == GL11.GL_FALSE) {
 			System.err.println("Error linking program!");
 			System.err.println(GL20.glGetProgramInfoLog(texProgram, GL20.GL_INFO_LOG_LENGTH));
-			return;
 		}
 		
 		projLocation = GL20.glGetUniformLocation(texProgram, "projection");
