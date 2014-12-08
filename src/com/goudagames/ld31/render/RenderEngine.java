@@ -317,9 +317,11 @@ public class RenderEngine {
 		GL20.glLinkProgram(texProgram);
 		GL20.glValidateProgram(texProgram);
 		
-		if (GL20.glGetProgrami(texProgram, GL20.GL_LINK_STATUS) == GL11.GL_FALSE) {
-			
-			System.out.println("Error in texture program linking.");
+		int error = GL20.glGetProgrami(texProgram, GL20.GL_LINK_STATUS);
+		if (error == GL11.GL_FALSE) {
+			System.err.println("Error linking program!");
+			System.err.println(GL20.glGetProgramInfoLog(texProgram, GL20.GL_INFO_LOG_LENGTH));
+			return;
 		}
 		
 		projLocation = GL20.glGetUniformLocation(texProgram, "projection");
